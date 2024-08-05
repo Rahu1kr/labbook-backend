@@ -6,6 +6,7 @@ import userRouter from "./user/userRouter";
 
 
 const app = express();
+app.use(express.json());
 
 // Routes
 
@@ -17,6 +18,8 @@ app.get("/", (req, res, next) => {
 });
 
 app.use('/api/users',userRouter);
+
+
 
 // Global error handler in last
 app.use(globalErrorHandler);
