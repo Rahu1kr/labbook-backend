@@ -2,7 +2,8 @@
 import express from "express";
 
 import globalErrorHandler from "./middlewares/globalErrorHandler";
-import createHttpError from "http-errors";
+import userRouter from "./user/userRouter";
+
 
 const app = express();
 
@@ -11,11 +12,11 @@ const app = express();
 // Http methods: GET, POST, PUT, PATCH, DELETE
 
 app.get("/", (req, res, next) => { 
-    // throw new Error("something went wrong");
-    const error = createHttpError(400, "something went wrong");
-    throw error;
   res.json({ message: "Welcome to ebook apis" });
+
 });
+
+app.use('/api/users',userRouter);
 
 // Global error handler in last
 app.use(globalErrorHandler);
