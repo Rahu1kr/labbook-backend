@@ -7,7 +7,7 @@ const _config = {
     databaseURL: process.env.MONGO_CONNECTION_STRING,
     // used for find dev envornment or production envornment
     env: process.env.NODE_ENV,
-
+    jwtSecret: process.env.JWT_SECRET,
 };
 
 
