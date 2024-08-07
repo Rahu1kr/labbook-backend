@@ -43,10 +43,10 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
             email,
             password: hashedPassword,
         });
-    } catch (error) {
+    } catch (err) {
         return next(createHttpError(500, "Error while creating user."))
     }
-
+ 
     try {
         // Token generation JWT 
         const token = sign({sub: newUser._id}, config.jwtSecret as string, {
@@ -58,11 +58,13 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
 
         // response
 
-        res.json({accessToken: token});
+        res.status(201).json({accessToken: token});
     } catch (err) {
         return next(createHttpError(500,"Error while signing the jwt token"));
     }
     
 };
+
+
 
 export { createUser };
