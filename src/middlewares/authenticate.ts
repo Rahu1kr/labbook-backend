@@ -1,0 +1,33 @@
+import { config } from "../config/config";
+import { NextFunction, Request, Response } from "express"
+import createHttpError from "http-errors";
+import { verify } from "jsonwebtoken";
+
+export interface AuthRequest extends Request{
+    userId: string;
+}
+const authenticate = (req: Request, res: Response, next: NextFunction) => {
+    const token = req.header('Autherization');
+    // bug
+    if(!token){
+        return next(createHttpError(401, "Autherization is required."));
+    }
+
+    
+
+    try {
+        const parsedToken = token.split(' ')[1];
+        const decoded = verify(parsedToken, config.jwtSecret as string);
+        const _req = req as AuthRequest;
+        _req.userId = decoded.sub as string;
+        next();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+        return next(createHttpError(401, "Token expired."));
+    }
+
+
+    
+};
+
+export default authenticate;
